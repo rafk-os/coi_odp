@@ -1,0 +1,73 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: List of Books!
+servers:
+  - url: http://localhost:8080
+paths:
+  /books:
+    get:
+      summary: Gets list of books
+      operationId: getBooks
+      tags:
+        - books
+      responses:
+        '200':
+          description: books list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BooksService"
+  /books/{iban}:
+    get:
+      summary: Get book by iban number
+      operationId: getBookbyIban
+      parameters:
+        - in: path
+          name: iban
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: book by id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/book"
+  /books/findByTitle:
+    get:
+      summary: Get book by title number
+      operationId: getBookbyTitle
+      parameters:
+        - in: query
+          name: title
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: book by title
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/book"
+components:
+  schemas:
+    BooksService:
+      required:
+        - books
+      properties:
+        array_of_books:
+          type: array
+          items:
+            $ref: "#/components/schemas/book"
+    book:
+      type: object
+      properties:
+        title:
+          type: string
+        iban:
+          type: string
+        author:
+          type: string
